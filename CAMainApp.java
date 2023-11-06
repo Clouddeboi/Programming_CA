@@ -7,7 +7,7 @@ import java.io.IOException;
 public class CAMainApp {
     public static void main(String[] args) {
 
-        String file = "src\\activity_data_50.csv";
+        String file = "src\\activity_data_10.csv";
 
         BufferedReader reader = null;
 
