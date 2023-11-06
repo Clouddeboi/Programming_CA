@@ -7,6 +7,7 @@ public class Activity {
     private double Distance;
     private int AvgHeartRate;
 
+
     private Intensity intensity;
     private double CalsBurned;
 
@@ -18,7 +19,6 @@ public class Activity {
         VIGOROUS,
         VERY_VIGOROUS
     };
-
 
     //Constructor
     public Activity(String activityType, String date, int duration, double distance, int avgHeartRate) {
