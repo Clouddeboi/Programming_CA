@@ -32,9 +32,11 @@ public class Activity {
 
         if(this.getActivityType().equals("Cycling"))
         {
+            this.CalsBurned = Duration *2;
             if(KPH > 16)
             {
                 this.intensity = Intensity.LIGHT;
+                this.CalsBurned = Duration * 5;
 
                 if(KPH > 25)
                 {

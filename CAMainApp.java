@@ -2,12 +2,12 @@ package Programming_CA.Programming_CA;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class CAMainApp {
    public static void main(String[] args) throws IOException {
+
+       Comparator<Activity>comp = null;
 
        String userFileSelect = "";
 
@@ -17,6 +17,15 @@ public class CAMainApp {
        ArrayList<Activity> stats = new ArrayList<Activity>();
        readFile("src/Programming_CA/Programming_CA/TestStats/"+userFileSelect, stats);
 
+       for(Activity a: stats)
+       {
+           System.out.printf("%-20s %-20s %-20d %-20.1f %-20d\n",a.getActivityType(), a.getDate(), a.getDuration(),a.getDistance(),a.getAvgHeartRate() );
+       }
+
+       comp = new CaloriesBurnedComparatorDesc();
+       Collections.sort(stats, comp);
+
+       System.out.println("Sorting By Desc");
        for(Activity a: stats)
        {
            System.out.printf("%-20s %-20s %-20d %-20.1f %-20d\n",a.getActivityType(), a.getDate(), a.getDuration(),a.getDistance(),a.getAvgHeartRate() );
