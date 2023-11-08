@@ -51,9 +51,20 @@ public class CAMainApp {
             else if (userInput == 4){
                 System.out.println("Enter the activity name:");
                 String actName = kb.nextLine();
-                kb.nextLine();
 
-                //call method for binary
+                System.out.println("Enter the Date:");
+                String date = kb.nextLine();
+
+                System.out.println("Enter the Duration:");
+                int duration = kb.nextInt();
+
+                System.out.println("Enter the Distance:");
+                double distance = kb.nextDouble();
+
+                System.out.println("Enter the Average heart rate:");
+                int avHeartRate = kb.nextInt();
+
+                binarySearch(actName,date, duration, distance, avHeartRate, stats);
             }
             else{
                 System.out.println("Invalid choice. Please try again.");
@@ -422,9 +433,20 @@ public class CAMainApp {
             }
         }
     }
-    public static void binarySearch (String actName)
-    {
 
+     public static void binarySearch(String actName, String date, int duration, double distance, int avHeartRate, ArrayList<Activity> stats) {
+
+        Activity userInput = new Activity(actName, date, duration, distance, avHeartRate);
+        stats.add(userInput);
+
+        Collections.sort(stats);
+
+        int index = Collections.binarySearch(stats, userInput);
+
+        if (index >= 0) {
+            System.out.println("Found " + stats.get(index) + " at index " + index);
+        } else {
+            System.out.println("Activity not found in the list.");
+        }
     }
-
 }
