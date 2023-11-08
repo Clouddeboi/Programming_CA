@@ -17,7 +17,10 @@ public class CAMainApp {
         userFileSelect = kb.nextLine();
 
         ArrayList<Activity> stats = new ArrayList<Activity>();
+
         readFile("src/Programming_CA/Programming_CA/TestStats/" + userFileSelect, stats);
+
+        readFile("src/Programming_CA/TestStats/" + userFileSelect, stats);
 
         boolean Exit = false;
         while (!Exit) {
@@ -221,6 +224,7 @@ public class CAMainApp {
 
         if(choice == 1){
             //call Average distance per activity
+
             double AvgDistanceCycling = 0.0;
             double AvgDistanceSwimming= 0.0;
             double AvgDistanceRunning= 0.0;
@@ -274,6 +278,11 @@ public class CAMainApp {
                 System.out.println("Average Running Distance:");
                 System.out.println(AvgDistanceRunning);
             }
+
+        }
+        else if(choice == 2){
+            //call Average calories burned
+
 
         }
         else if(choice == 2){
