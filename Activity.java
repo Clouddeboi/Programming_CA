@@ -1,6 +1,6 @@
 package Programming_CA.Programming_CA;
 
-public class Activity {
+public class Activity implements Comparable<Activity> {
     private String ActivityType;
     private String Date;
     private int Duration;
@@ -166,5 +166,31 @@ public class Activity {
                 ", Distance=" + Distance +
                 ", AvgHeartRate=" + AvgHeartRate +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Activity other) {
+        Comparator<Activity> DateComp = new DateComparator();
+
+        if(this.getActivityType().compareTo(other.getActivityType()) == 0){
+
+            if(DateComp.compare(this, other) == 0){
+
+                if(Double.compare(this.getDuration(), other.getDuration()) == 0){
+
+                    if(Double.compare(this.getDistance(), other.getDistance()) == 0){
+
+                        if(Double.compare(this.getCalsBurned(), other.getCalsBurned()) == 0){
+                            return 0;
+                        }
+                        return Double.compare(this.getCalsBurned(), other.getCalsBurned());
+                    }
+                    return Double.compare(this.getDistance(), other.getDistance());
+                }
+                return Double.compare(this.getDuration(), other.getDuration());
+            }
+            return DateComp.compare(this, other);
+        }
+        return this.getActivityType().compareTo(other.getActivityType());
     }
 }
