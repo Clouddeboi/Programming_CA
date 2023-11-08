@@ -22,15 +22,13 @@ public class CAMainApp {
 
         boolean Exit = false;
         while (!Exit) {
-
-            //userFileSelect = kb.nextLine();
-
             System.out.println("\nMain Menu:");
             System.out.println("----------------------");
             System.out.println("0. Exit");
             System.out.println("1. View Activities");
             System.out.println("2. View Specific fields");
             System.out.println("3. View Statistics");
+            System.out.println("4. Binary Search");
             System.out.println("----------------------");
 
             int userInput = kb.nextInt();
@@ -39,24 +37,29 @@ public class CAMainApp {
             if (userInput == 0){
                 Exit = true;
             }
-
             else if (userInput == 1)
             {
                 menu1(kb, stats, ascendingOrder);
             }
-
             else if (userInput == 2)
             {
               menu2(kb, stats);
             }
-
             else if (userInput == 3){
                 menu3(kb, stats);
             }
+            else if (userInput == 4){
+                System.out.println("Enter the activity name:");
+                String actName = kb.nextLine();
+                kb.nextLine();
+
+                //call method for binary
+            }
+            else{
+                System.out.println("Invalid choice. Please try again.");
+            }
         }
-
     }
-
     private static Activity parseLine2(String line)
     {
         String ActivityType;
@@ -71,7 +74,6 @@ public class CAMainApp {
         Duration = Integer.parseInt(st.nextToken().trim());
         Distance = Double.parseDouble(st.nextToken().trim());
         AvgHeartRate = Integer.parseInt(st.nextToken().trim());
-
 
         return new Activity(ActivityType,Date,Duration,Distance,AvgHeartRate);
     }
@@ -97,28 +99,24 @@ public class CAMainApp {
     }
 
     public static void menu1(Scanner kb, ArrayList<Activity> stats, boolean ascendingOrder){
-        System.out.println("\n Activity Menu:");
+        System.out.println("\n Sort by:");
         System.out.println("----------------------");
-        System.out.println("1. Default");
-        System.out.println("2. Calories Burned");
-        System.out.println("3. Date");
-        System.out.println("4. Activity Duration");
-        System.out.println("5. Type of Activity");
-        System.out.println("6. Distance");
+        System.out.println("1. Calories Burned");
+        System.out.println("2. Date");
+        System.out.println("3. Activity Duration");
+        System.out.println("4. Type of Activity");
+        System.out.println("5. Distance");
         System.out.println("----------------------");
 
         int choice = kb.nextInt();
         kb.nextLine();
 
-        if(choice == 1){
-            displayStats(stats);
-        }
-        else if(choice == 2)
-        {
-            System.out.println("Would you like to sort in Ascending (1) or Descending (2) order?");
-            int orderChoice = kb.nextInt();
-            kb.nextLine();
+        System.out.println("Would you like to sort in Ascending (1) or Descending (2) order?");
+        int orderChoice = kb.nextInt();
+        kb.nextLine();
 
+        if(choice == 1)
+        {
             if(orderChoice == 1){
                 sortCalsBurned(stats, ascendingOrder);
             }
@@ -127,16 +125,17 @@ public class CAMainApp {
             }
         }
 
+        else if(choice == 2)
+        {
+            if(orderChoice == 1){
+                sortDate(stats, ascendingOrder);
+            }
+            else if(orderChoice == 2){
+                sortDate(stats, !ascendingOrder);
+            }
+        }
         else if(choice == 3)
         {
-            //call Date (Ascending/Descending) method
-        }
-        else if(choice == 4)
-        {
-            System.out.println("Would you like to sort in Ascending (1) or Descending (2) order?");
-            int orderChoice = kb.nextInt();
-            kb.nextLine();
-
             if(orderChoice == 1){
                 sortDuration(stats, ascendingOrder);
             }
@@ -144,12 +143,8 @@ public class CAMainApp {
                 sortDuration(stats, !ascendingOrder);
             }
         }
-        else if(choice == 5)
+        else if(choice == 4)
         {
-            System.out.println("Would you like to sort in Ascending (1) or Descending (2) order?");
-            int orderChoice = kb.nextInt();
-            kb.nextLine();
-
             if(orderChoice == 1){
                 sortActType(stats, ascendingOrder);
             }
@@ -157,18 +152,17 @@ public class CAMainApp {
                 sortActType(stats, !ascendingOrder);
             }
         }
-        else if(choice == 6)
+        else if(choice == 5)
         {
-            System.out.println("Would you like to sort in Ascending (1) or Descending (2) order?");
-            int orderChoice = kb.nextInt();
-            kb.nextLine();
-
             if(orderChoice == 1){
                 sortDistance(stats, ascendingOrder);
             }
             else if(orderChoice == 2){
                 sortDistance(stats, !ascendingOrder);
             }
+        }
+        else{
+            System.out.println("Invalid choice. Please try again.");
         }
     }
     public static void menu2(Scanner kb, ArrayList<Activity> stats){
@@ -184,7 +178,6 @@ public class CAMainApp {
         kb.nextLine();
 
         if(choice == 1){
-            //call Activity type
             System.out.printf("%-20s", "Activity Type");
             for (Activity a: stats)
             {
@@ -192,7 +185,6 @@ public class CAMainApp {
             }
         }
         else if(choice == 2){
-            //call Above a minimum distance
             double UserMinDistance = 0;
             System.out.println("What's your minimum distance?(enter as Double): ");
             UserMinDistance = kb.nextDouble();
@@ -207,8 +199,6 @@ public class CAMainApp {
             System.out.println("\n");
         }
         else if(choice == 3){
-            //call Type of energy expended
-            //Activity.Intensity IntensityIn = Activity.Intensity.VERY_LIGHT;
             int userChoiceIntensity = 0;
 
             System.out.println("""
@@ -223,7 +213,6 @@ public class CAMainApp {
 
                 if(userChoiceIntensity == 1)
                 {
-//                  System.out.println("Very Light Activities:");
                     viewIntensity(stats, Intensity.VERY_LIGHT);
                 }
                 else if(userChoiceIntensity == 2)
@@ -242,8 +231,6 @@ public class CAMainApp {
                 {
                     viewIntensity(stats, Intensity.VERY_VIGOROUS);
                 }
-
-
         }
         else if(choice == 4){
             //call Above a minimum duration
@@ -258,6 +245,9 @@ public class CAMainApp {
                     System.out.printf("\n%-20s %-20d", a.getActivityType(),a.getDuration());
                 }
             }
+        }
+        else{
+            System.out.println("Invalid choice. Please try again.");
         }
     }
     public static void menu3(Scanner kb, ArrayList<Activity> stats){
@@ -341,6 +331,9 @@ public class CAMainApp {
             avgCalsBurned = (avgCalsBurned) / countCalsBurnedCount;
             System.out.println("Average Calories Burned:\n"+avgCalsBurned);
         }
+        else{
+            System.out.println("Invalid choice. Please try again.");
+        }
     }
 
     public static void displayStats(ArrayList<Activity> stats){
@@ -413,7 +406,6 @@ public class CAMainApp {
 
     public static void viewIntensity(ArrayList<Activity> stats, Intensity intensity)
     {
-
         System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s\n", "Activity Type", "Date", "Duration", "Distance", "Avg Heart Rate","Calories Burned");
 
         for(Activity a: stats)
@@ -423,6 +415,10 @@ public class CAMainApp {
                 System.out.printf("%-20s %-20s %-20d %-20.1f %-20d %-20.1f\n", a.getActivityType(), a.getDate(), a.getDuration(), a.getDistance(), a.getAvgHeartRate(), a.getCalsBurned());
             }
         }
+    }
+    public static void binarySearch (String actName)
+    {
+
     }
 
 }
