@@ -43,7 +43,7 @@ public class CAMainApp {
             }
             else if (userInput == 2)
             {
-              menu2(kb, stats);
+                menu2(kb, stats);
             }
             else if (userInput == 3){
                 menu3(kb, stats);
@@ -60,7 +60,7 @@ public class CAMainApp {
             }
         }
     }
-    private static Activity parseLine2(String line)
+    private static Activity parseLine2(String line, ArrayList<Activity> stats)
     {
         String ActivityType;
         String Date;
@@ -74,6 +74,12 @@ public class CAMainApp {
         Duration = Integer.parseInt(st.nextToken().trim());
         Distance = Double.parseDouble(st.nextToken().trim());
         AvgHeartRate = Integer.parseInt(st.nextToken().trim());
+
+        Activity activity = new Activity(ActivityType,Date,Duration,Distance,AvgHeartRate);
+        if(stats.contains(activity))
+        {
+            stats.add(activity);
+        }
 
         return new Activity(ActivityType,Date,Duration,Distance,AvgHeartRate);
     }
@@ -93,7 +99,7 @@ public class CAMainApp {
             }
 
             line = fileIn.nextLine();
-            Activity a = parseLine2(line);
+            Activity a = parseLine2(line, stats);
             stats.add(a);
         }
     }
@@ -211,26 +217,26 @@ public class CAMainApp {
 
             userChoiceIntensity = kb.nextInt();
 
-                if(userChoiceIntensity == 1)
-                {
-                    viewIntensity(stats, Intensity.VERY_LIGHT);
-                }
-                else if(userChoiceIntensity == 2)
-                {
-                    viewIntensity(stats, Intensity.LIGHT);
-                }
-                else if(userChoiceIntensity == 3)
-                {
-                    viewIntensity(stats, Intensity.MODERATE);
-                }
-                else if(userChoiceIntensity == 4)
-                {
-                    viewIntensity(stats, Intensity.VIGOROUS);
-                }
-                else if(userChoiceIntensity == 5)
-                {
-                    viewIntensity(stats, Intensity.VERY_VIGOROUS);
-                }
+            if(userChoiceIntensity == 1)
+            {
+                viewIntensity(stats, Intensity.VERY_LIGHT);
+            }
+            else if(userChoiceIntensity == 2)
+            {
+                viewIntensity(stats, Intensity.LIGHT);
+            }
+            else if(userChoiceIntensity == 3)
+            {
+                viewIntensity(stats, Intensity.MODERATE);
+            }
+            else if(userChoiceIntensity == 4)
+            {
+                viewIntensity(stats, Intensity.VIGOROUS);
+            }
+            else if(userChoiceIntensity == 5)
+            {
+                viewIntensity(stats, Intensity.VERY_VIGOROUS);
+            }
         }
         else if(choice == 4){
             //call Above a minimum duration
@@ -351,8 +357,8 @@ public class CAMainApp {
 
         Collections.sort(stats, CalComp);
 
-       System.out.println("\nSorted by calories");
-       displayStats(stats);
+        System.out.println("\nSorted by calories");
+        displayStats(stats);
     }
     public static void sortDate(ArrayList<Activity> stats, boolean ascendingOrder){
         Comparator<Activity> DateComp = new DateComparator();

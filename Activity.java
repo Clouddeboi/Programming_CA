@@ -61,6 +61,7 @@ public class Activity {
     }
 
     public double getCalsBurned() {
+        setIntensity();
         return CalsBurned;
     }
 
