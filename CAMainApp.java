@@ -5,32 +5,57 @@ import java.io.IOException;
 import java.util.*;
 
 public class CAMainApp {
-   public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {
 
-       Comparator<Activity>comp = null;
+        String userFileSelect = "";
+        boolean ascendingOrder = true;
 
-       String userFileSelect = "";
+        System.out.println("Welcome to the Activity Tracker!");
+        System.out.println("Enter File Name Here:");
 
-       Scanner kb = new Scanner(System.in);
-       userFileSelect = kb.nextLine();
+        Scanner kb = new Scanner(System.in);
+        userFileSelect = kb.nextLine();
 
-       ArrayList<Activity> stats = new ArrayList<Activity>();
-       readFile("src/Programming_CA/Programming_CA/TestStats/"+userFileSelect, stats);
+        ArrayList<Activity> stats = new ArrayList<Activity>();
+        readFile("src/Programming_CA/Programming_CA/TestStats/" + userFileSelect, stats);
 
-       for(Activity a: stats)
-       {
-           System.out.printf("%-20s %-20s %-20d %-20.1f %-20d\n",a.getActivityType(), a.getDate(), a.getDuration(),a.getDistance(),a.getAvgHeartRate() );
-       }
+        boolean Exit = false;
+        while (!Exit) {
 
-       comp = new CaloriesBurnedComparatorDesc();
-       Collections.sort(stats, comp);
+            //userFileSelect = kb.nextLine();
 
-       System.out.println("Sorting By Desc");
-       for(Activity a: stats)
-       {
-           System.out.printf("%-20s %-20s %-20d %-20.1f %-20d\n",a.getActivityType(), a.getDate(), a.getDuration(),a.getDistance(),a.getAvgHeartRate() );
-       }
-   }
+            System.out.println("\nMain Menu:");
+            System.out.println("----------------------");
+            System.out.println("0. Exit");
+            System.out.println("1. View Activities");
+            System.out.println("2. View Specific fields");
+            System.out.println("3. View Statistics");
+            System.out.println("----------------------");
+
+            int userInput = kb.nextInt();
+            kb.nextLine();
+
+            if (userInput == 0){
+                Exit = true;
+            }
+
+            else if (userInput == 1)
+            {
+                menu1(kb, stats, ascendingOrder);
+            }
+
+            else if (userInput == 2)
+            {
+              menu2(kb, stats);
+            }
+
+            else if (userInput == 3){
+                menu3(kb, stats);
+            }
+        }
+
+    }
+
     private static Activity parseLine2(String line)
     {
         String ActivityType;
@@ -69,8 +94,260 @@ public class CAMainApp {
             stats.add(a);
         }
     }
+
+    public static void menu1(Scanner kb, ArrayList<Activity> stats, boolean ascendingOrder){
+        System.out.println("\n Activity Menu:");
+        System.out.println("----------------------");
+        System.out.println("1. Default");
+        System.out.println("2. Calories Burned");
+        System.out.println("3. Date");
+        System.out.println("4. Activity Duration");
+        System.out.println("5. Type of Activity");
+        System.out.println("6. Distance");
+        System.out.println("----------------------");
+
+        int choice = kb.nextInt();
+        kb.nextLine();
+
+        if(choice == 1){
+            displayStats(stats);
+        }
+        else if(choice == 2)
+        {
+            System.out.println("Would you like to sort in Ascending (1) or Descending (2) order?");
+            int orderChoice = kb.nextInt();
+            kb.nextLine();
+
+            if(orderChoice == 1){
+                sortCalsBurned(stats, ascendingOrder);
+            }
+            else if(orderChoice == 2){
+                sortCalsBurned(stats, !ascendingOrder);
+            }
+        }
+
+        else if(choice == 3)
+        {
+            //call Date (Ascending/Descending) method
+        }
+        else if(choice == 4)
+        {
+            System.out.println("Would you like to sort in Ascending (1) or Descending (2) order?");
+            int orderChoice = kb.nextInt();
+            kb.nextLine();
+
+            if(orderChoice == 1){
+                sortDuration(stats, ascendingOrder);
+            }
+            else if(orderChoice == 2){
+                sortDuration(stats, !ascendingOrder);
+            }
+        }
+        else if(choice == 5)
+        {
+            System.out.println("Would you like to sort in Ascending (1) or Descending (2) order?");
+            int orderChoice = kb.nextInt();
+            kb.nextLine();
+
+            if(orderChoice == 1){
+                sortActType(stats, ascendingOrder);
+            }
+            else if(orderChoice == 2){
+                sortActType(stats, !ascendingOrder);
+            }
+        }
+        else if(choice == 6)
+        {
+            System.out.println("Would you like to sort in Ascending (1) or Descending (2) order?");
+            int orderChoice = kb.nextInt();
+            kb.nextLine();
+
+            if(orderChoice == 1){
+                sortDistance(stats, ascendingOrder);
+            }
+            else if(orderChoice == 2){
+                sortDistance(stats, !ascendingOrder);
+            }
+        }
+    }
+    public static void menu2(Scanner kb, ArrayList<Activity> stats){
+        System.out.println("\nSpecific fields:");
+        System.out.println("----------------------");
+        System.out.println("1. Activity type");
+        System.out.println("2. Above a minimum distance");
+        System.out.println("3. Type of energy expended");
+        System.out.println("4. Above a minimum duration");
+        System.out.println("----------------------");
+
+        int choice = kb.nextInt();
+        kb.nextLine();
+
+        if(choice == 1){
+            //call Activity type
+            for (Activity a: stats)
+            {
+                System.out.println(a.getActivityType());
+            }
+        }
+        else if(choice == 2){
+            //call Above a minimum distance
+            double UserMinDistance = 0;
+            System.out.println("What's your minimum distance?(enter as Double): ");
+            UserMinDistance = kb.nextDouble();
+            for(Activity a: stats)
+            {
+                if(UserMinDistance < a.getDistance())
+                {
+                    System.out.println(a.getDistance());
+                }
+            }
+        }
+        else if(choice == 3){
+            //call Type of energy expended
+        }
+        else if(choice == 4){
+            //call Above a minimum duration
+        }
+    }
+    public static void menu3(Scanner kb, ArrayList<Activity> stats){
+        System.out.println("\nStatistics:");
+        System.out.println("----------------------");
+        System.out.println("1. Average distance per activity");
+        System.out.println("1. Average calories burned");
+        System.out.println("----------------------");
+
+        int choice = kb.nextInt();
+        kb.nextLine();
+
+        if(choice == 1){
+            //call Average distance per activity
+            double AvgDistanceCycling = 0.0;
+            double AvgDistanceSwimming= 0.0;
+            double AvgDistanceRunning= 0.0;
+            int countCycling = 0;
+            int countSwimming = 0;
+            int countRunning = 0;
+            int AvgDistanceChoice = 0;
+
+            System.out.println("""
+                    1.Cycling
+                    2.Swimming
+                    3.Running
+                    """);
+            AvgDistanceChoice = kb.nextInt();
+            kb.nextLine();
+
+            for(Activity a: stats)
+            {
+                if(a.getActivityType().equals("Cycling"))
+                {
+                    countCycling = countCycling +1;
+                    AvgDistanceCycling = AvgDistanceCycling + a.getDistance();
+                }
+                else if(a.getActivityType().equals("Swimming"))
+                {
+                    countSwimming = countSwimming +1;
+                    AvgDistanceSwimming = AvgDistanceSwimming + a.getDistance();
+                }
+                else if(a.getActivityType().equals("Running"))
+                {
+                    countRunning= countRunning +1;
+                    AvgDistanceRunning = AvgDistanceRunning + a.getDistance();
+                }
+            }
+            AvgDistanceCycling = (AvgDistanceCycling) / countCycling;
+            AvgDistanceSwimming= (AvgDistanceSwimming) / countSwimming;
+            AvgDistanceRunning= (AvgDistanceRunning) / countRunning;
+
+            if(AvgDistanceChoice == 1)
+            {
+                System.out.println("Average Cycling Distance:");
+                System.out.println(AvgDistanceCycling);
+            }
+            else if(AvgDistanceChoice == 2)
+            {
+                System.out.println("Average Swimming Distance:");
+                System.out.println(AvgDistanceSwimming);
+            }
+            else if(AvgDistanceChoice == 3)
+            {
+                System.out.println("Average Running Distance:");
+                System.out.println(AvgDistanceRunning);
+            }
+
+        }
+        else if(choice == 2){
+            //call Average calories burned
+
+        }
+    }
+
+    public static void displayStats(ArrayList<Activity> stats){
+        System.out.printf("%-20s %-20s %-20s %-20s %-20s\n", "Activity Type", "Date", "Duration", "Distance", "Avg Heart Rate");
+        for (Activity a : stats) {
+            System.out.printf("%-20s %-20s %-20d %-20.1f %-20d\n", a.getActivityType(), a.getDate(), a.getDuration(), a.getDistance(), a.getAvgHeartRate());
+        }
+    }
+    public static void sortCalsBurned(ArrayList<Activity> stats, boolean ascendingOrder){
+        Comparator<Activity> CalComp = new CaloriesBurnedComparator();
+
+        if (!ascendingOrder) {
+            CalComp = Collections.reverseOrder(CalComp);
+        }
+
+        Collections.sort(stats, CalComp);
+
+       System.out.println("\nSorted by calories");
+       displayStats(stats);
+    }
+    public static void sortDate(ArrayList<Activity> stats, boolean ascendingOrder){
+        Comparator<Activity> DateComp = new DateComparator();
+
+        if (!ascendingOrder) {
+            DateComp = Collections.reverseOrder(DateComp);
+        }
+
+        Collections.sort(stats, DateComp);
+
+        System.out.println("\nSorted by Date");
+        displayStats(stats);
+    }
+    public static void sortDuration(ArrayList<Activity> stats, boolean ascendingOrder){
+        Comparator<Activity> DurComp = new DurationComparator();
+
+        if (!ascendingOrder) {
+            DurComp = Collections.reverseOrder(DurComp);
+        }
+
+        Collections.sort(stats, DurComp);
+
+        System.out.println("\nSorted by Duration");
+        displayStats(stats);
+    }
+
+    public static void sortActType(ArrayList<Activity> stats, boolean ascendingOrder){
+        Comparator<Activity> ActTypeComp = new ActivityTypeComparator();
+
+        if (!ascendingOrder) {
+            ActTypeComp = Collections.reverseOrder(ActTypeComp);
+        }
+
+        Collections.sort(stats, ActTypeComp);
+
+        System.out.println("\nSorted by Activity Type");
+        displayStats(stats);
+    }
+    public static void sortDistance(ArrayList<Activity> stats, boolean ascendingOrder){
+        Comparator<Activity> DistComp = new DistanceComparator();
+
+        if (!ascendingOrder) {
+            DistComp = Collections.reverseOrder(DistComp);
+        }
+
+        Collections.sort(stats, DistComp);
+
+        System.out.println("\nSorted by Distance");
+        displayStats(stats);
+    }
+
 }
-
-
-
-
