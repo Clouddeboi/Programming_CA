@@ -10,15 +10,6 @@ public class Activity {
     private Intensity intensity;
     private double CalsBurned;
 
-    public enum Intensity
-    {
-        VERY_LIGHT,
-        LIGHT,
-        MODERATE,
-        VIGOROUS,
-        VERY_VIGOROUS
-    };
-
     //Constructor
     public Activity(String activityType, String date, int duration, double distance, int avgHeartRate) {
         ActivityType = activityType;
@@ -26,6 +17,66 @@ public class Activity {
         Duration = duration;
         Distance = distance;
         AvgHeartRate = avgHeartRate;
+
+    }
+
+    //getter
+    public String getActivityType() {
+        return ActivityType;
+    }
+
+    public String getDate() {
+        return Date;
+    }
+
+    public int getDuration() {
+        return Duration;
+    }
+
+    public double getDistance() {
+        return Distance;
+    }
+
+    public int getAvgHeartRate() {
+        return AvgHeartRate;
+    }
+
+    //setter
+    public void setActivityType(String activityType) {
+        ActivityType = activityType;
+    }
+
+    public void setDate(String date) {
+        Date = date;
+    }
+
+    public void setDuration(int duration) {
+        Duration = duration;
+    }
+
+    public void setDistance(double distance) {
+        Distance = distance;
+    }
+
+    public void setAvgHeartRate(int avgHeartRate) {
+        AvgHeartRate = avgHeartRate;
+    }
+
+    public double getCalsBurned() {
+        return CalsBurned;
+    }
+
+    public void setCalsBurned(double calsBurned) {
+        CalsBurned = calsBurned;
+    }
+
+    public Intensity getIntensity() {
+        setIntensity();
+        return intensity;
+    }
+
+    public void setIntensity() {
+        this.intensity = intensity;
 
         double KPH = Distance/(Duration/60);
 
@@ -108,59 +159,6 @@ public class Activity {
         }
     }
 
-    //getter
-    public String getActivityType() {
-        return ActivityType;
-    }
-
-    public String getDate() {
-        return Date;
-    }
-
-    public int getDuration() {
-        return Duration;
-    }
-
-    public double getDistance() {
-        return Distance;
-    }
-
-    public int getAvgHeartRate() {
-        return AvgHeartRate;
-    }
-
-    //setter
-    public void setActivityType(String activityType) {
-        ActivityType = activityType;
-    }
-
-    public void setDate(String date) {
-        Date = date;
-    }
-
-    public void setDuration(int duration) {
-        Duration = duration;
-    }
-
-    public void setDistance(double distance) {
-        Distance = distance;
-    }
-
-    public void setAvgHeartRate(int avgHeartRate) {
-        AvgHeartRate = avgHeartRate;
-    }
-
-    public double getCalsBurned() {
-        return CalsBurned;
-    }
-
-    public void setCalsBurned(double calsBurned) {
-        CalsBurned = calsBurned;
-    }
-
-
-
-
     //to string
     @Override
     public String toString() {
@@ -173,6 +171,5 @@ public class Activity {
                 '}';
     }
 
-    public static class DistanceComparator {
-    }
+
 }

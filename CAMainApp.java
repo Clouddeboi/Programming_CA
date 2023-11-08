@@ -20,8 +20,6 @@ public class CAMainApp {
 
         readFile("src/Programming_CA/Programming_CA/TestStats/" + userFileSelect, stats);
 
-        readFile("src/Programming_CA/TestStats/" + userFileSelect, stats);
-
         boolean Exit = false;
         while (!Exit) {
 
@@ -187,9 +185,10 @@ public class CAMainApp {
 
         if(choice == 1){
             //call Activity type
+            System.out.printf("%-20s", "Activity Type");
             for (Activity a: stats)
             {
-                System.out.println(a.getActivityType());
+                System.out.printf("\n%-20s",a.getActivityType());
             }
         }
         else if(choice == 2){
@@ -197,19 +196,68 @@ public class CAMainApp {
             double UserMinDistance = 0;
             System.out.println("What's your minimum distance?(enter as Double): ");
             UserMinDistance = kb.nextDouble();
+            System.out.printf("\n%-20s %-20s", "Activity type","Distance");
             for(Activity a: stats)
             {
                 if(UserMinDistance < a.getDistance())
                 {
-                    System.out.println(a.getDistance());
+                    System.out.printf("\n%-20s %-20.1f", a.getActivityType(), a.getDistance());
                 }
             }
+            System.out.println("\n");
         }
         else if(choice == 3){
             //call Type of energy expended
+            //Activity.Intensity IntensityIn = Activity.Intensity.VERY_LIGHT;
+            int userChoiceIntensity = 0;
+
+            System.out.println("""
+                   1.VERY LIGHT
+                   2.LIGHT
+                   3.MODERATE
+                   4.VIGOROUS
+                   5.VERY VIGIOROUS
+                    """);
+
+            userChoiceIntensity = kb.nextInt();
+
+                if(userChoiceIntensity == 1)
+                {
+//                  System.out.println("Very Light Activities:");
+                    viewIntensity(stats, Intensity.VERY_LIGHT);
+                }
+                else if(userChoiceIntensity == 2)
+                {
+                    viewIntensity(stats, Intensity.LIGHT);
+                }
+                else if(userChoiceIntensity == 3)
+                {
+                    viewIntensity(stats, Intensity.MODERATE);
+                }
+                else if(userChoiceIntensity == 4)
+                {
+                    viewIntensity(stats, Intensity.VIGOROUS);
+                }
+                else if(userChoiceIntensity == 5)
+                {
+                    viewIntensity(stats, Intensity.VERY_VIGOROUS);
+                }
+
+
         }
         else if(choice == 4){
             //call Above a minimum duration
+            int UserMinDuration = 0;
+            System.out.println("What's your minimum duration?: ");
+            UserMinDuration = kb.nextInt();
+            System.out.printf("\n%-20s %-20s", "Activity type","Duration");
+            for(Activity a: stats)
+            {
+                if(UserMinDuration  < a.getDuration())
+                {
+                    System.out.printf("\n%-20s %-20d", a.getActivityType(),a.getDuration());
+                }
+            }
         }
     }
     public static void menu3(Scanner kb, ArrayList<Activity> stats){
@@ -283,18 +331,22 @@ public class CAMainApp {
         else if(choice == 2){
             //call Average calories burned
 
-
-        }
-        else if(choice == 2){
-            //call Average calories burned
-
+            int countCalsBurnedCount = 0;
+            double avgCalsBurned = 0;
+            for(Activity a: stats)
+            {
+                countCalsBurnedCount = countCalsBurnedCount +1;
+                avgCalsBurned = avgCalsBurned + a.getCalsBurned();
+            }
+            avgCalsBurned = (avgCalsBurned) / countCalsBurnedCount;
+            System.out.println("Average Calories Burned:\n"+avgCalsBurned);
         }
     }
 
     public static void displayStats(ArrayList<Activity> stats){
-        System.out.printf("%-20s %-20s %-20s %-20s %-20s\n", "Activity Type", "Date", "Duration", "Distance", "Avg Heart Rate");
+        System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s\n", "Activity Type", "Date", "Duration", "Distance", "Avg Heart Rate","Calories Burned");
         for (Activity a : stats) {
-            System.out.printf("%-20s %-20s %-20d %-20.1f %-20d\n", a.getActivityType(), a.getDate(), a.getDuration(), a.getDistance(), a.getAvgHeartRate());
+            System.out.printf("%-20s %-20s %-20d %-20.1f %-20d %-20.1f\n", a.getActivityType(), a.getDate(), a.getDuration(), a.getDistance(), a.getAvgHeartRate(), a.getCalsBurned());
         }
     }
     public static void sortCalsBurned(ArrayList<Activity> stats, boolean ascendingOrder){
@@ -357,6 +409,20 @@ public class CAMainApp {
 
         System.out.println("\nSorted by Distance");
         displayStats(stats);
+    }
+
+    public static void viewIntensity(ArrayList<Activity> stats, Intensity intensity)
+    {
+
+        System.out.printf("%-20s %-20s %-20s %-20s %-20s %-20s\n", "Activity Type", "Date", "Duration", "Distance", "Avg Heart Rate","Calories Burned");
+
+        for(Activity a: stats)
+        {
+            if(a.getIntensity() == intensity)
+            {
+                System.out.printf("%-20s %-20s %-20d %-20.1f %-20d %-20.1f\n", a.getActivityType(), a.getDate(), a.getDuration(), a.getDistance(), a.getAvgHeartRate(), a.getCalsBurned());
+            }
+        }
     }
 
 }
